@@ -1,0 +1,55 @@
+{% extends 'bootstrap/base.html' %}
+{% block title %} Completed Tasks {% endblock %}
+{% block styles %}
+<style>
+h1 {text-align: center;
+    font-size: 60px;}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1.0);
+  padding: 3px;
+  text-align: center;
+  background-color: #f1f1f1;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  margin-top: 20px
+}
+
+body {
+  background-image: url({{ url_for('static', filename='img/dog6.jpg')}});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+{% endblock %}
+{% block content %}
+<div class="card">
+<h1> Completed Tasks</h1>
+</div>
+{% if not tasks: %}
+<div class="card"> <p> No tasks available. </p> </div>
+{% else: %}
+<div class="card">
+
+<table class="table">
+<tr>
+    <td> <b>Task</b> </td>
+    <td> <b>Due Date</b> </td>
+    <td> <b>Label</b> </td>
+    <td> <b>Delete</b> </td>
+
+</tr>
+{% for task in tasks: %}
+    <tr>
+    <td> {{task.name}} </td>
+    <td> {{task.due_date}}</td>
+    <td> {{task.label}}</td>
+    <td> <a href="{{url_for('delete_task', id=task.id)}}" class="button">❌</a></td>
+    </tr>
+{% endfor %}
+</table>
+{% endif %}
+</div>
+{% endblock %}

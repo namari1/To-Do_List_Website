@@ -1,0 +1,12 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %} Edit Task {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+{% endblock %}
+{% block content %}
+
+<h2> Edit {{task.name}} </h2>
+{{ wtf.quick_form(form, novalidate=True) }}
+
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'bootstrap/base.html' %}
+{% block title %} To-Do {% endblock %}
+{% block styles %}
+<style>
+h1 {text-align: center;
+    font-size: 60px;}
+body {
+  background-image: url({{ url_for('static', filename='img/dog4.jpg')}});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+ul {
+    text-align: left;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+.row {margin: 0 -5px;}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1.0);
+  padding: 3px;
+  text-align: center;
+  background-color: #f1f1f1;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  margin-top: 20px
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px
+  }
+}
+</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="card"><h1> LISTS </h1></div>
+{% if not lists: %}
+<div class="card"><p> No lists available. </p></div>
+
+{% else: %}
+{% for i in range(0, lists|length, 3) %}
+<div class="row">
+    {% for j in range(i, lists|length|int|min(i+3)) %}
+    <div class="column">
+        <div class="card"><h3> <a href="{{url_for('edit_list', id=lists[j].id)}}" class="button">{{lists[j].name}}</a> </h3>
+        {% set list_tasks = lists[j].tasks %}
+
+        {% if list_tasks|length == 0 %}
+            <p> No tasks available. </p>
+        {% endif %}
+        {% for task in list_tasks: %}
+        <ul>
+            <li> <b> <a href="{{url_for('edit_task', id=task.id)}}" class="button">{{task.name}} </a> </b>
+                <a href="{{url_for('delete_task', id=task.id)}}" class="button">❌</a> <a href="{{url_for('complete_task', id=task.id)}}" class="button">✅</a>
+                <br> <b> Due: </b> {{task.due_date}} <br> <b> Label: </b> {{task.label}}
+            </li>
+        </ul>
+
+        {% endfor %}
+        <a href="{{url_for('add_task', list_id=lists[j].id)}}" class="button" >Add Task</a>
+        <br>
+        <a href="{{url_for('delete_list', id=lists[j].id)}}" class="button"> Delete List</a>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endfor %}
+{% endif %}
+<br>
+<div class="card"> <a href="{{url_for('add_list')}}" class="button">Add List</a></div>
+<div class="card"> <a href="{{url_for('show_completed_tasks')}}" class="button">Completed Tasks</a></div>
+
+{% endblock %}
+
+
+<script>
+
+</script>
